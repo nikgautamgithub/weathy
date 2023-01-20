@@ -44,7 +44,7 @@ self.__precacheManifest = [
     "url": "/weathy/static/media/rain.4789ada3.png"
   },
   {
-    "revision": "40e36ca325a8d3c36cf700b19f978da0",
+    "revision": "ed1b76afb086678c6be0bc93a09ca7fa",
     "url": "/weathy/index.html"
   }
 ];

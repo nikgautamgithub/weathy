@@ -5,15 +5,28 @@ import mistimg from './assets/mist.png';
 import rainimg from './assets/rain.png';
 import error404img from './assets/404.png';
 
+function getLocation() {
+  return new Promise((resolve, reject) => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => resolve(`lat=${position.coords.latitude}&lon=${position.coords.longitude}`));
+    }
+  });
+}
 
-function wther(){
+async function wther(locate){
     const weathercont = document.querySelector(".weather-cont");
     const weatherdetails = document.querySelector(".weather-details");
     const error404 = document.querySelector(".not-found");
     const app = document.querySelector('.App');
     const api_key='334b9630a83366a3a38b39aa58e7390d';
-    var city = document.querySelector(".getcity-input").value;
-    
+    const location = document.querySelector(".getcity-input");
+    let city = 'q=' + location.value;
+
+    if(locate){
+        city = await getLocation();
+        location.value = 'Current Location';
+    }
+
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${api_key}`)
     .then(response=>response.json())
     .then(json=>{
@@ -77,6 +90,14 @@ function wther(){
             }
         })
     }
+
+document.querySelector(".Locate-icon").addEventListener("click", () => wther(true));
+document.querySelector(".getcity-input").addEventListener('keypress',event => {
+    if(event.which === 13){
+        wther();
+        document.querySelector(".getcity-input").blur();
+    }
+});
 
 
 export default wther;
